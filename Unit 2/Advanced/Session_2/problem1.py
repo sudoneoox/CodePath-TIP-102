@@ -4,13 +4,8 @@ Given:
 
 Return: 'find_balanced_subsequence() -> int'
     the length of the longest balanced subsequence
-    A subsequence is a sequence derived from the array by 
+    A subsequence is a sequence derived from the array by
     deleting some or no elements without changing the order of the remaining elements
 """
 
 from typing import List, Set
-
-
-def find_balanced_subsequence(art_pieces: List[int]):
-
-
