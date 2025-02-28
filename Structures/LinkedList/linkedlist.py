@@ -40,25 +40,27 @@ class LinkedList:
             self.head = new_node
         self.length += 1
 
-    def insert(self, value, index) -> bool:
+    def insert(self, index, value) -> bool:
         """Add Node at specified Index"""
-        if index >= self.length or index < 0:
+        if index > self.length or index < 0:
             return False
         if index == 0:
             self.prepend(value)
             return True
-        elif index == self.length - 1:
+        elif index == self.length:
             self.append(value)
             return True
 
         new_node = Node(value)
         current_node = self.head
-        for i in range(0, index - 1):
+        i = 0
+        while i < index - 1:
             current_node = current_node.next
+            i += 1
 
-        temp = current_node.next
+        tmp = current_node.next
         current_node.next = new_node
-        new_node.next = temp
+        new_node.next = tmp
 
         self.length += 1
         return True
@@ -103,6 +105,23 @@ class LinkedList:
         self.length -= 1
         return popped_node
 
+    def remove(self, index) -> Node | None:
+        return_node = None
+        if index >= self.length or index < 0:
+            return None
+        elif index == 0:
+            return self.pop_first()
+        elif index == self.length:
+            return self.pop()
+        else:
+            current_node = self.get(index - 1)
+            return_node = current_node.next
+            current_node.next = return_node.next
+            return_node.next = None
+
+        self.length -= 1
+        return return_node
+
     def get(self, index) -> Node | None:
         if index >= self.length or index < 0:
             return None
@@ -123,3 +142,30 @@ class LinkedList:
         while current_node is not None:
             print(current_node.value)
             current_node = current_node.next
+
+    def reverse(self) -> None:
+        if self.length == 0:
+            return
+        elif self.length == 1:
+            return self.head
+
+        tmp = self.head
+        self.head = self.tail
+        self.tail = tmp
+        after = tmp.next
+        before = None
+        for _ in range(0, self.length):
+            after = tmp.next
+            tmp.next = before
+            before = tmp
+            tmp = after
+
+
+if __name__ == "__main__":
+    l = LinkedList(1)
+    for i in range(2, 10):
+        l.append(i)
+    l.print_list()
+    print("=" * 20 + "TEST" + "=" * 20)
+    l.reverse()
+    l.print_list()
